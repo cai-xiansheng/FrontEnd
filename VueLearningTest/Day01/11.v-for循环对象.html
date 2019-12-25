@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+			
+			<!-- 注意:在遍历对象绳上的键值对的时候，除了 由 val,key，在第三个位置还有一个索引 -->
+			<p v-for="val,key,i in user">键：{{key}}---值：{{val}}----索引：{{i}}</p>
+		</div>
+		
+		
+		<script type="text/javascript">
+			//创建Vue实例，得到ViewModel
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					user : {
+						id : 1,
+						name : '托尼·世达克',
+						gender : '男',
+					}
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

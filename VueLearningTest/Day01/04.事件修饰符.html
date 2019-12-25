@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.inner{
+				height: 150px;
+				background-color: darkcyan;
+			}
+			.outer{
+				padding: 40px;
+				background-color: red;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 使用 .stop阻止冒泡机制 -->
+			<!-- <div class="inner" @click="divHandler">
+				<input type="button" value="戳他" @click.stop="btnHandler"/>	
+			</div> -->
+			
+			
+			<!-- 使用.prevent来阻止默认事件 -->
+			<!-- .prevent就是阻止事件本来要执行的操作 -->
+			<!-- <a href="http://www.baidu.com" @click.prevent="linkClick">有问题，先去百度</a> -->
+			
+			
+			<!-- 使用 .capture 实现捕获触发事件的机制 -->
+			<!-- 捕获触发事件就是从外向内执行，也就点击里面的按钮，先执行外边div里边的，然后再执行buttom里面的。
+				他所指的捕获就是捕获外边的事件！
+			 -->
+			<!-- <div class="inner" @click.capture="divHandler">
+				<input type="button" value="戳他" @click="btnHandler"/>	
+			</div> -->
+			
+			
+			
+			<!-- 使用 .self 实现只有点击当前元素的时候，才会触发事件的处理函数 -->
+			<!-- <div class="inner" @click.self="divHandler">
+				<input type="button" value="戳他" @click="btnHandler"/>	
+			</div> -->
+			
+			
+			<!-- 使用 .once 只触发一次事件 -->
+			<!-- <a href="http://www.baidu.com" @click.prevent.once="linkClick">有问题，先去百度</a> -->
+			
+			
+			
+			
+			<!-- 演示： .stop 和 .self 的区别 -->
+			<!-- .self只会阻止自己身上冒泡行为的触发，并不会真正阻止冒泡的行为 -->
+			<!-- .stop会阻止冒泡从这一层开始的所有事件 -->
+			<!-- <div class="outer" @click="div2Handler">
+				<div class="inner" @click.self="divHandler">
+					<input type="button" value="戳他" @click="btnHandler"/>	
+				</div>
+			</div> -->
+			
+		</div>
+		
+		
+		<script type="text/javascript">
+			//创建Vue实例，得到ViewModel
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					
+				},
+				methods:{
+					divHandler(){
+						console.log('这是触发了 inner div 的点击事件')
+					},
+					btnHandler(){
+						console.log('这是触发了 btn input 的点击事件')
+					},
+					linkClick(){
+						console.log('触发了连接的点击事件')
+					},
+					div2Handler(){
+						console.log('这是触发了 outer div 的点击事件')
+					},
+					
+					
+				}
+			})
+		</script>
+	</body>
+</html>

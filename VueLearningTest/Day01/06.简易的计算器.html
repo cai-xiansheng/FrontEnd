@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		
+		  <!-- 数据双向绑定的应用！ -->
+		 
+		
+		
+		<div id="app">
+			<input type="text" v-model="n1" />
+			
+			<select v-model="opt">
+				<option value ="+">+</option>
+				<option value ="-">-</option>
+				<option value ="*">*</option>
+				<option value ="/">/</option>
+			</select>
+			
+			<input type="text" v-model="n2"/>
+			
+			<input type="button" value="=" @click="calc"/>
+			
+			<input type="text" v-model="result"/>
+			
+			
+		</div>
+		
+		
+		<script type="text/javascript">
+			//创建Vue实例，得到ViewModel
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					n1 : 0,
+					n2 : 0,
+					result : 0,
+					opt : '+',
+				},
+				methods:{
+					calc(){
+						//计算器，算数的方法
+						//逻辑：
+						/*switch(this.opt){
+							case '+':
+							this.result = parseInt(this.n1) + parseInt(this.n2)
+								break;
+							case '-':
+							this.result = parseInt(this.n1) - parseInt(this.n2)
+								break;
+							case '*':
+							this.result = parseInt(this.n1) * parseInt(this.n2)
+								break;
+							case '/':
+							this.result = parseInt(this.n1) / parseInt(this.n2)
+								break;								
+						}*/
+						
+						//注意: 这是投机取巧方式，正式开发中，尽量少用！
+						var codeStr = 'parseInt(this.n1)' + this.opt + 'parseInt(this.n2)'
+						this.result = eval(codeStr)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

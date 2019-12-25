@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+			<div>
+				<label>Id:
+					<input type="text" v-model="id" />
+				</label>
+				
+				<label>Name:
+					<input type="text" v-model="name"/>
+				</label>
+				
+				<input type="button" value="添加" @click="add"/>
+			</div>
+			
+			
+			
+			<!-- 注意：v-for循环的时候，key属性只能使用number获取string -->
+			<!-- 注意：key在使用的时候，必须使用v-bind属性绑定的形式，指定key的值 -->
+			<!-- 在组件中，使用v-for循环的时候，或者在一些特殊情况下，如果v-for有问题，必须在使用 
+			v-for的同时之地那个唯一的字符出或数字，类型：key值-->
+			<p v-for="item in list" :key = 'item.id'>
+				<input type="checkbox"/>{{item.id}} ---- {{item.name}}
+			</p>
+		</div>
+		
+		
+		<script type="text/javascript">
+			//创建Vue实例，得到ViewModel
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					id : '',
+					name : '',
+					list : [
+						{ id : 1,name : '李斯'},
+						{ id : 2,name : '李斯2'},
+						{ id : 3,name : '李斯3'},
+						{ id : 4,name : '李斯4'},
+					],
+				},
+				methods:{
+					add(){//添加方法 push
+						this.list.unshift({id:this.id,name:this.name})
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

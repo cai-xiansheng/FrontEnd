@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+			
+			<!-- 对象就是无序键值对集合 -->
+			<!-- 键值对中存在-的必须使用''包裹起来，例如'font-weight' -->
+			<!-- <h1 :style="{color:'red','font-weight':200}">这是一个H1</h1> -->
+			
+			
+			<!-- 在data中定义样式 -->
+			<!-- <h1 :style="styleObj1">这是一个H1</h1> -->
+			
+			<!-- 通过数组，引用多个样式对象 -->
+			<h1 :style="[styleObj1,styleObj2]">这是一个H1</h1>
+			
+			
+		</div>
+		
+		
+		<script type="text/javascript">
+			//创建Vue实例，得到ViewModel
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					styleObj1 : {color:'red','font-weight':200},
+					styleObj2 : {'font-style' : 'italic'}
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

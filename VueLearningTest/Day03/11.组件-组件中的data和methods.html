@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<mycom1></mycom1>
+		</div>
+		
+		
+		<script type="text/javascript">
+			// 1. 组件可以有自己的数据data 
+			// 2. 组建的data和实例的data有一点不一样，实例中的data可以为一个对象，但是组件中的data必须是一个方法
+			// 3. 组件中的data除了必须为一个方法之外，还必须返回一个对象才行。
+			Vue.component('mycom1',{
+				template:'<h1>这是全局组件___{{msg}}</h1>',
+				data:function(){
+					return{
+						msg: '这是组件中共的data定义的数据'
+					}
+				}
+			})
+			
+			
+			//创建Vue实例，得到ViewModel
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

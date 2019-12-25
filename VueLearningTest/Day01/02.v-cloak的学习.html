@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			[v-cloak]{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div id="app">
+			<!-- 使用v-clock能够解决表达式闪烁的问题 -->
+			<p v-cloak>{{msg}}---------</p>
+				<!-- {{}} 这就是插值表达式 -->
+			<h4 v-text="msg">--------</h4>
+			<!-- 默认v-text 是没有闪烁问题的 -->
+			<!-- v-text会覆盖元素原本的内容，但是 插值表达式 指挥替换自己的这个占位符，不会把整个元素的内容全部替换掉 -->
+			
+			
+			
+			<div>{{msg2}}</div>
+			<div v-text="msg2"></div>
+			<!-- v-text跟插值表达式差不多，但是插值表达式只会替换占位符，不会把整个元素内容全部替换掉！但是v-text就会将整个元素内部的问题全部替换掉 -->
+			<div v-html="msg2">
+				123
+			</div>
+			<!-- v-html会直接替换整个元素内部的东西，并且输出为html -->
+			
+			
+			<input type="button" value="按钮" v-bind:title="mytitle + '123'" />
+			<!-- v-bind: 是vue中，提供的用于绑定属性的指令 -->
+			<!-- 注意：v-bind：指令可以被简写为：要绑定的属性 -->
+			<!-- v-bind中，可以写成合法的JS表达式 -->
+			
+			
+			
+			<!-- <input type="button" value="按钮" :title="mytitle + '123'"  v-on:click="alert"/> -->
+			<!-- vue中提供了v-on：事件绑定机制 -->
+			<input type="button"  value="按钮" v-on:mouseover="show" />
+			
+		</div>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					msg : '123',
+					msg2 : '<h1> hha,我是一个大大的h1<h1>',
+					mytitle : '这是一个自己定义的属性',
+					
+				},
+				methods:{
+					//这个methods属性中定义了当前vue中实例所有可用的方法
+					show: function(){
+						alert('hello!');
+					}
+				}
+			})
+		</script>
+		
+	</body>
+</html>
+
+<!-- 1.如何定义一个基本的Vue框架结构 -->
+<!-- 2.插值表达式 和 v-text -->
+<!-- 3.v-clock -->
+<!-- 4.v-html -->
+<!-- 5.v-bind 	Vue提供的属性绑定机制		缩写是 : -->
+<!-- 6.v-on 	Vue提供的事件绑定机制		缩写是 @ -->

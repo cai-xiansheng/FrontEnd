@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<!-- 主要包括了数据的请求，提交，以及重新渲染 -->
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/vue-resource.js"></script>
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap.css"/>
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap-responsive.css"/>
+	</head>
+	<body>
+		<div id="app">
+			
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">添加品牌</h3>
+				</div>
+				<div class="panel-body form-inline">
+					
+					<label>
+						Name:
+						<input type="text" v-model="name" class="form-control"/>
+					</label>
+					
+					<input type="button" value="添加" @click="add" class="btn btn-primary"/>
+					
+				</div>
+			</div>
+			
+			<table class="table table-bordered table-hover table-striped<!-- 隔行变色 -->">
+				<thead>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Ctime</th>
+					<th>Operation</th>
+				</thead>
+				<tbody>
+					<tr v-for="item in list" :key = "item.id">
+						<td>{{item.id}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.ctime}}</td>
+						<td>
+							<a href="#" @click.prevent="del(item.id)" >删除</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			
+			
+		</div>
+		
+		
+		<script type="text/javascript">
+			// 如果我们通过全局配置了，请求数据接口的根域名，则在每次单独发起的http请求的时候，请求的url路径应该以相对路径开头，前面不能带/，否则就不会启用跟路径做拼接
+			Vue.http.options.root = 'http://vue.studyit.io';
+			//全局启用 emulateJSON 选项
+			Vue.http.option.emulateJSON = true;
+			
+			//创建Vue实例，得到ViewModel
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					list: [//存放所有品牌列表的的数组
+						{id : 1,name : '五菱宏光',ctime : new Date()},
+						{id : 2,name : '众泰',ctime : new Date()},
+						{id : 2,name : '众泰',ctime : new Date()},
+					]
+				},
+				created() {
+					//当 vm 实例的data和methods初始化好了，vm实例会自动执行created 这个生命周期函数
+					this.getAllList()
+				},
+				methods:{
+
+					getAllList(){
+						//获取所有车的品牌列表
+						/**
+						 * 1.由于我们已经导入了Vue-resource这个包，所以，可以直接通过this.$http 来发起数据请求
+						 * 2.根据接口API文档，知到，获取列表的时候，应该发起一个　ｇｅｔ 请求
+						 * 3.this.$http.get('url').then(function(result){})
+						 * 4.当通过then指定回调函数中，可以拿到数据服务器返回的result
+						 * 5.先判断result.status是否等于0，如果等于0，就成功了，可以把我们拿到的result.message 赋值给this.list ；如果不等于0，可以弹框，获取数据失败！
+						 */
+						this.$http.get('api/getprodlist').then(result =>{
+							//注意：通过$http 获取到的数据包，都在result.body 中放着
+							//通过接口获取到所有的数据
+							var result = result.body
+							if(result.status === 0){
+								//成功了
+								this.list = result.message
+								//将获取到的数据给我们已经定义的数据数组。然后通过数据数组就可以完成数据的渲染
+							}else{
+								//失败了
+								alert('数据获取失败！')
+							}
+						})
+					},
+					
+					add(){
+						/**
+						 * 分析：
+						 * 1.通过查看API接口，发现，要发送一个post请求， this.$http.post
+						 * 2.this.$http.post()接收三个参数
+						 * 		2.1 第一个参数：要请求的URL地址
+						 * 		2.2 第二个参数：要提交的服务器的数据，要以对象形式提交给服务器{name:this.name}
+						 * 		2.3 第三个参数：是一个配置对象，要以哪种表单数据类型提交过去，{emulateJSON:true}，以普通表单的形式，将数据提交给服务器 application/x-www-from-urlencoded
+						 * 3.在post方法中，使用.then 来设置成功的回调函数，如果想要拿到成功的结果，需要result.body
+						 */
+						this.$http.post('api/addproduct',{name:this.name},/* {emulateJSON:true} */).then(result => {
+							//当 全局启用 emulateJSON 选项 之后，我们就不用在post请求中添加{emulateJSON:true}
+							if(result.body.status === 0){
+								//成功了！
+								//添加完成后，只需要手动，再调一下getAllList 就能刷新品牌列表
+								getAllList()
+								//清空name，这儿还没有理解
+								this.name = ''
+							}else{
+								//失败了！
+								alert('添加失败！')
+							}
+						})
+					},
+			
+					del(){
+						//删除品牌数据
+						this.$http.get('api/delproduct' + id).then(result=>{
+							//这儿说明一下：result=>{}		《===》			function(result){}
+							if(result.body.status == 0){
+								this.getAllList()
+							}else{
+								alert('删除失败！')
+							}
+						})
+					}
+					
+			});
+		</script>
+	</body>
+</html>
