@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 1.安装 Vue-router 路由模块 -->
+		<script src="./lib/vue-router%20v3.1.5.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.router-link-active,
+			.myactive {;
+				color: red;
+				font-weight: 800;
+				font-size: 40px;
+			}
+			.v-enter,
+			.v-leave-to{
+				opacity: 0;
+				transform: translateX(140px);
+			}
+			
+			.v-enter-active,
+			.v-leave-active{
+				transform: all 0.5s ease;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			
+			<!-- <a href="#/login">登录</a> -->
+			<!-- <a href="#/register">注册</a> -->
+			
+			
+			<!-- router-link 默认渲染为一个a标签 -->
+			<router-link to="/login" tag="span">登录</router-link>
+			<router-link to="/register">注册</router-link>
+			
+			
+			<!-- 这是vue-router提供的元素，专门用来当作占位符的，将来，路由规则，匹配到组件中，就会展示到这个router-view中去 -->
+			<!-- 所以：我们可以把router-view认为是一个占位符 -->
+			<transition mode="out-in">
+				<router-view></router-view>
+			</transition>
+			
+		</div>
+		
+		
+		<script type="text/javascript">
+			var login = {
+				template:'<h1>登陆组件</h1>'
+			}
+			var register = {
+				template:'<h1>注册组件</h1>'
+			}			
+			
+			// 2.创建一个路由对象，当导入vue-router包之后，在window全局对象中，就有了一个路由的构造函数 ，叫做VueRouter
+			// 在new 路由对象的时候，可以为构造函数，传递一个配置对象
+			var rouedrObj = new VueRouter({
+				// route //在配置对象中route表示【路由配置规则】 的意思
+				routes:[// 路由匹配规则
+				// 每个路由规则，都是一个对象，这个规则对象身上，有两个必须的属性；
+				//	 属性1 是path，表示监听 哪个路由的链接地址；
+				//	 属性2 是component ，表示如果 路由是前面匹配到的path，则展示component 属性对印的那个组件
+				// 注意：component 的属性值，必须是一个组件模板对象，不能是组件的引用名称
+				// {path:'/',component:login},
+				{path:'',redirect:'/login'},// 这里的 redirect 和 node 中的redirect 完全是两码事，在vue中会强制下载页面
+				{path:'/login',component:login},
+				{path:'/register',component:register}
+				],
+				linkActiveClass:'myactive'
+			})
+			
+			
+			//创建Vue实例，得到ViewModel
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					
+				},
+				methods:{
+					
+				},
+				router:rouedrObj,
+				// 将路由规则对象，注册到vm实例上，用来监听url地址的变化，然后展示对应的组件
+			})
+		</script>
+	</body>
+</html>

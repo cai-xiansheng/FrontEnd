@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 父组件向子组件传递方法 ，使用的是事件绑定机制；v-on(v-on 简写为@)，当我们自定义了一个事件属性之后，那么子组件就能够通过某种方式，来调用传递进去的这个方法了 -->
+			<com2 @func = 'show'></com2>
+			<!-- 这儿向外展示这个com2组件，同时它也是私有组件，也就是说在id='app'的这个范围内才能使用 -->
+
+		</div>
+		
+		
+		
+		<template id="temp1">
+			<!-- 这儿定义了HTML结构，定义了之后方便com2来调用 -->
+			<!-- 这个HTML结构只能是一块，也就是说你里面的内容不管有多少，但是在使用的使用后必须成为一个集体（可以使用div包起来） -->
+			<div>
+				<h1>这是 子组件</h1>
+				<input type="button" value="这是子组件中的按钮，点击它，触发父组件传递过来的func 方法" @click="myclick" />
+			</div>
+		</template>
+		<script type="text/javascript">
+			
+			//定义了一个自变量类型的组件模板对象
+			//这儿定义了一个组件模板
+			var com2 = {
+				template: '#temp1',//通过指定了一个 ID ，表示说，要取加载 这个指定的ID 的template元素中的内，当作组件的HTML结构
+				// 这儿使用temp1 使用外部定义的HTML结构
+				data(){
+					return {
+						sonmsg : {
+							name:'小偷儿子',
+							age: 6
+						},
+						// 这儿定义了结构体中的数据data 
+					}
+				},
+				methods:{
+					myclick(){
+						// 当点击子组建的而按钮的时候，如何拿到父组件传递过来的func方法，并调用这个方法
+						//emit 英文原意：是触发、调用、发射的意思
+						// this.$emit('func',1232,456)
+						this.$emit('func',this.sonmsg)
+					}
+				}
+			}
+			
+			
+			//创建Vue实例，得到ViewModel
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					datamsgFromSon :null
+				},
+				methods:{
+					show(data){
+						// console.log('调用了父组身上的show方法----'+ data )
+						this.datamsgFromSon = data
+					}
+				},
+				components:{
+					// com2 或者可以使用com2:com2
+					// 私有组件，并且调用com2来使用其定义的组件。
+					com2 : com2
+				}
+			})
+		</script>
+	</body>
+</html>
