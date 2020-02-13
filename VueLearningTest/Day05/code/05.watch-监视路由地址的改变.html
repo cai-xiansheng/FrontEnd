@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 1.导入包 -->
+		<script src="./lib/vue-routerv3.1.5.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+			<router-link to="login">登录</router-link>
+			<router-link to="register">注册</router-link>
+			
+			<!-- 容器 -->
+			<router-view></router-view>
+		</div>
+		
+		
+		<script type="text/javascript">
+			// 2.创建子组件
+			var login = {
+				template:'<h3>这是登陆子组件，这个组件是 巴伯本 开发的</h3>'
+			}
+			var register = {
+				template:'<h3>这是登陆子组件，这个组件是 奔波霸 开发的</h3>'
+			}
+			
+			// 3.创建一个路由对象
+			var router = new VueRouter({
+				routes:[ // 路由规则数组
+					{path:'',component:login},
+					{path:'/login',component:login},
+					{path:'/register',component:register}
+				]
+			})
+			
+			
+			//创建Vue实例，得到ViewModel
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					
+				},
+				methods:{
+					
+				},
+				// router:router
+				router,
+				watch:{
+					// this.$route.path
+					'$route.path': function(newVal,oldVal){
+						// console.log(newVal + ' --- ' + oldVal)
+						if (newVal == '/login') {
+							console.log('欢迎进入登陆页面!')
+						} else if (newVal == '/register'){
+							console.log('欢迎进入注册页面！')
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

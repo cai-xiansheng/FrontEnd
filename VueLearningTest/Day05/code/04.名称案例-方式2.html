@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="lib/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+			
+
+			
+			
+			<input type="text" v-model="firstname"/> +
+			<input type="text" v-model="lastname" /> =
+			<input type="text" v-model="fullname"/> 
+
+		</div>
+		
+		
+		<script type="text/javascript">
+			//创建Vue实例，得到ViewModel
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					// firstname: '',
+					// lastname: '',
+					fullname: ''
+				},
+				methods:{
+
+				},
+				watch:{ // 使用这个属性，可以监视data 中指定的数据变化，然后触发这个 watch 中对应的 function 处理函数
+					firstname: function(newVal,oldVal){
+						// 这儿上边的firstname 可以加引号，也可以不加引号。只要在firstname 中没有加‘-’都可以不加引号。
+						this.fullname = newVal + '-' + this.lastname
+					},
+					"lastname": function(newVal){
+						this.fullname = this.firstname + '-' + newVal
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
+
+
