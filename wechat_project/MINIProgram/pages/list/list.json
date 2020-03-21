@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "listTmp": "/pages/template/list-template"
+  },
+  "navigationBarTitleText": "Me"
+}
